@@ -1,0 +1,32 @@
+Bluepill.application("app") do |app|
+  app.process("unicorn") do |process|
+    process.pid_file = "/var/run/unicorn/unicorn.pid"
+    process.working_dir = "/var/www/current"
+
+    process.start_command = "red_unicorn --unicorn-exec /usr/local/bin/unicorn --env <%= @environment %> start"
+    process.stop_command = "red_unicorn --unicorn-exec /usr/local/bin/unicorn stop"
+    process.restart_command = "red_unicorn --unicorn-exec /usr/local/bin/unicorn restart"
+
+    process.uid = process.gid = "www-data"
+
+    process.start_grace_time = <%= @start_grace_time %>.seconds
+    process.stop_grace_time = <%= @stop_grace_time %>.seconds
+    process.restart_grace_time = <%= @restart_grace_time %>.seconds
+
+    process.monitor_children do |child_process|
+      child_process.stop_command = "kill -QUIT {{PID}}"
+
+      child_process.checks( :mem_usage,
+                            :every => 30.seconds,
+                            :below => <%= @mem_usage_mb %>.megabytes,
+                            :times => [3,4],
+                            :fires => :stop )
+
+      child_process.checks( :cpu_usage,
+                            :every => 30.seconds,
+                            :below => <%= @cpu_usage_percent %>,
+                            :times => [3,4],
+                            :fires => :stop )
+    end
+  end
+end
