@@ -1,4 +1,4 @@
-gem_package "red_unicorn" if node[:unicorn][:stand_alone]
+gem_package "red_unicorn" unless node[:unicorn][:bundled]
 
 directory "/etc/unicorn"
 

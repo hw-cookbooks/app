@@ -3,9 +3,9 @@ Bluepill.application("app") do |app|
     process.pid_file = "/var/run/unicorn/unicorn.pid"
     process.working_dir = "/var/www/current"
 
-    process.start_command = "red_unicorn --unicorn-exec /usr/local/bin/unicorn --env <%= @environment %> start"
-    process.stop_command = "red_unicorn --unicorn-exec /usr/local/bin/unicorn stop"
-    process.restart_command = "red_unicorn --unicorn-exec /usr/local/bin/unicorn restart"
+    process.start_command = "<%= @red_unicorn %> --env <%= @environment %> start"
+    process.stop_command = "<%= @red_unicorn %> stop"
+    process.restart_command = "<%= @red_unicorn %> restart"
 
     process.uid = process.gid = "www-data"
 
