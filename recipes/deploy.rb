@@ -21,9 +21,9 @@ deploy_revision "/var/www" do
   repository node[:app][:repository]
   revision node[:app][:revision]
   user "www-data"
-  enable_submodules true
+  enable_submodules node[:app][:enable_submodules]
   migrate node[:app][:migrate]
-  migration_command "bundle exec rake db:migrate"
+  migration_command node[:app][:migration_command]
   environment "RAILS_ENV" => node[:app][:rails_env]
   shallow_clone true
 
