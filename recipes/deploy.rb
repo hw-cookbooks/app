@@ -1,4 +1,6 @@
+include_recipe "app::dependencies"
 include_recipe "app"
+include_recipe "git"
 
 if node[:app][:use_deploy_key]
   include_recipe "app::deploy_key"
@@ -26,6 +28,8 @@ deploy_revision "/var/www" do
   migration_command node[:app][:migration_command]
   environment "RAILS_ENV" => node[:app][:rails_env]
   shallow_clone true
+  symlink_before_migrate( "config/database.yml" => "config/database.yml",
+                          "config/mongoid.yml" => "config/mongoid.yml" )
 
   before_migrate do
     execute "bundle gems" do

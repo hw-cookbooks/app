@@ -1,20 +1,15 @@
-include_recipe "mysql::client"
+include_recipe "percona::client"
 
-mysql_database "create app database" do
-  host node[:db][:host]
-  username "root"
-  password node[:mysql][:server_root_password]
-  database node[:db][:name]
-  action :create_db
-end
+mysql_server = Discovery.search( "database-master", :node => node )
+host = Discovery.ipaddress( :remote_node => mysql_server, :node => node)
 
 template "/var/www/shared/config/database.yml" do
   source "database.yml.erb"
   owner "www-data"
   group "www-data"
   variables( :adapter => node[:db][:adapter],
-             :name => node[:db][:name],
-             :user => "root",
-             :pass => node[:mysql][:server_root_password],
-             :host => node[:db][:host] )
+             :name => mysql_server[:db][:name],
+             :user => mysql_server[:db][:username],
+             :pass => mysql_server[:db][:password],
+             :host => host )
 end
