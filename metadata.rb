@@ -13,3 +13,8 @@ depends "imagemagick"
 
 depends "nginx"
 depends "bluepill"
+
+depends "percona"
+depends "git"
+
+depends "discovery"

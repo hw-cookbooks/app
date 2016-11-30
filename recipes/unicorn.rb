@@ -14,6 +14,6 @@ template "/etc/unicorn/app.rb" do
   mode "644"
   variables( :timeout => node[:unicorn][:timeout],
              :cow_friendly => node[:unicorn][:cow_friendly],
-             :worker_processes => node[:cpu][:total] )
+             :worker_processes => node[:unicorn][:worker_processes] )
   notifies :restart, "bluepill_service[app]"
 end

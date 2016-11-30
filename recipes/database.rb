@@ -5,7 +5,7 @@ directory "/var/www/shared/config" do
 end
 
 case node[:db][:adapter]
-when "mysql"
+when "mysql", "mysql2"
   include_recipe "app::db_mysql"
 when "postgresql"
   include_recipe "app::db_postgres"
