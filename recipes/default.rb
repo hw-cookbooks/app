@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: app
+# Cookbook:: app
 # Recipe:: default
 #
-# Copyright 2011, Heavy Water Software Inc.
+# Copyright:: 2011, Heavy Water Software Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,15 +19,15 @@
 
 # Seems like nokogiri and rmagick are pretty common Rails
 # dependencies. Might as well get those out of the way.
-include_recipe "xml"
-include_recipe "xslt"
-include_recipe "imagemagick"
+include_recipe 'xml'
+include_recipe 'xslt'
+include_recipe 'imagemagick'
 
 # Apparently Rails 3.1 requires a JavaScript interpreter for execjs
 # and node is the most convenient to install.
-include_recipe "app::node"
+include_recipe 'app::node'
 
-include_recipe "app::database"
-include_recipe "app::nginx"
-include_recipe "app::unicorn"
-include_recipe "app::bluepill"
+include_recipe 'app::database'
+include_recipe 'app::nginx'
+include_recipe 'app::unicorn'
+include_recipe 'app::bluepill'
